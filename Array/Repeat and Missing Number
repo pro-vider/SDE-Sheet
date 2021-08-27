@@ -1,0 +1,58 @@
+//https://practice.geeksforgeeks.org/problems/find-missing-and-repeating2512/1#
+//Medium
+
+int *findTwoElement(int *arr, int n) {
+        // code here
+        int *ans=new int(2);
+        int num=arr[0];
+        for(int i=1;i<n;i++)
+        {
+            num=num^arr[i];
+        }
+        for(int i=1;i<=n;i++)
+        {
+            num=num^i;
+        }
+        int pos=0,i=0;
+        while(num)
+        {
+            if((num&1)==1)
+            pos=i;
+            num=num>>1;
+            i++;
+        }
+        int p1=0,p2=0;
+        for(int i=0;i<n;i++)
+        {
+            int r=arr[i]>>pos;
+            if((r&1)==1)
+                p1=p1^arr[i];
+            else
+                p2=p2^arr[i];
+        }
+        for(int i=1;i<=n;i++)
+        {
+            int r=i>>pos;
+            if((r&1)==1)
+                p1=p1^i;
+            else
+                p2=p2^i;
+        }
+        int count=0;
+        for(int i=0;i<n;i++)
+        {
+            if(p1==arr[i])
+               count++;
+        }
+        if(count==2)
+        {
+            ans[0]=p1;
+            ans[1]=p2;
+        }
+        else
+        {
+            ans[0]=p2;
+            ans[1]=p1;
+        }
+        return ans;
+    }
